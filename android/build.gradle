@@ -1,0 +1,63 @@
+// Builds the Stockfish program (a separate executable) with the Android NDK.
+//
+// Engine version: set the environment variable BESTCHESS_STOCKFISH to a
+// folder name suffix in ../native (e.g. "15.1" or "16") before building.
+// Default: 15.1 (the V1 engine, see docs/ENGINE_MEASUREMENTS.md).
+// Each build contains exactly one engine version.
+
+group = "com.rg.bestchess.stockfish_engine"
+version = "1.0"
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("com.android.tools.build:gradle:9.1.0")
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: "com.android.library"
+
+def stockfishVersion = System.getenv("BESTCHESS_STOCKFISH") ?: "15.1"
+
+android {
+    namespace = "com.rg.bestchess.stockfish_engine"
+    compileSdk = 36
+
+    // Same NDK as the app (android/app/build.gradle.kts via Flutter).
+    ndkVersion = "28.2.13676358"
+
+    externalNativeBuild {
+        cmake {
+            path = "../src/CMakeLists.txt"
+        }
+    }
+
+    defaultConfig {
+        minSdk = 24
+        // The app's ABIs only (Flutter builds no 32-bit x86).
+        ndk {
+            abiFilters "arm64-v8a", "armeabi-v7a", "x86_64"
+        }
+        externalNativeBuild {
+            cmake {
+                arguments "-DSTOCKFISH_VERSION=${stockfishVersion}"
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+}
