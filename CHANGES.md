@@ -1,7 +1,23 @@
 # Differences from an official Stockfish 15.1 build
 
-Stockfish's source code is **not modified**. No file is added to it,
-removed from it or edited.
+## Source changes (from BEST CHESS 1.1.0, 2026-10-29)
+
+Two lines of Stockfish's source are changed, each marked with a
+`BEST CHESS change` comment. Nothing else in the source is added,
+removed or edited. Version 1.0.0 used the unmodified source (git tag
+`bestchess-1.0.0`).
+
+1. `native/stockfish-15.1/src/search.cpp`, `UCI::pv()`: the elapsed
+   time used to print nodes per second is at least 1 ms
+   (`std::max(Time.elapsed() + 1, TimePoint(1))`). When the system
+   clock stepped back by a moment (seen on x86 Android emulators), the
+   elapsed time could be 0 and the division stopped the program with an
+   arithmetic exception. Searches and moves are unchanged.
+2. `native/stockfish-15.1/src/uci.cpp`, `bench()`: the same guard for
+   the benchmark's nodes-per-second line.
+
+## Build differences
+
 
 The differences are only in how the program is built:
 

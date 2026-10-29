@@ -1825,7 +1825,9 @@ void MainThread::check_time() {
 string UCI::pv(const Position& pos, Depth depth) {
 
   std::stringstream ss;
-  TimePoint elapsed = Time.elapsed() + 1;
+  // BEST CHESS change (2026-10-29): never 0, even when the clock steps back
+  // a moment (seen on x86 emulators), so the nps division below cannot trap.
+  TimePoint elapsed = std::max(Time.elapsed() + 1, TimePoint(1));
   const RootMoves& rootMoves = pos.this_thread()->rootMoves;
   size_t pvIdx = pos.this_thread()->pvIdx;
   size_t multiPV = std::min((size_t)Options["MultiPV"], rootMoves.size());

@@ -187,7 +187,8 @@ namespace {
         else if (token == "ucinewgame") { Search::clear(); elapsed = now(); } // Search::clear() may take a while
     }
 
-    elapsed = now() - elapsed + 1; // Ensure positivity to avoid a 'divide by zero'
+    // BEST CHESS change (2026-10-29): at least 1, also if the clock steps back.
+    elapsed = std::max(now() - elapsed + 1, TimePoint(1)); // Ensure positivity to avoid a 'divide by zero'
 
     dbg_print();
 

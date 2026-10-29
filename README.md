@@ -2,7 +2,9 @@
 
 This repository contains the complete corresponding source code of the
 **Stockfish 15.1** chess engine program included in the BEST CHESS Android
-app, version **1.0.0**.
+app, versions **1.0.0** and later (see `CHANGES.md` for
+what differs from version 1.1.0 on; the exact 1.0.0 source is the git
+tag `bestchess-1.0.0`).
 
 - **Program:** Stockfish 15.1 (https://stockfishchess.org), by the
   Stockfish developers (see `native/stockfish-15.1/AUTHORS`).
@@ -12,7 +14,8 @@ app, version **1.0.0**.
   `native/stockfish-15.1/` is the official source archive for that tag
   (SHA-256 of the downloaded `sf_15.1.tar.gz`:
   `d4272657905319328294355973faee40a8c28e3eecb0e7b266ed34ff33383b76`),
-  extracted **without changes**.
+  extracted without changes, except the two lines listed in
+  `CHANGES.md` (from BEST CHESS 1.1.0).
 - **Neural network:** `native/nets/nn-ad9b42354671.nnue` (CC0 1.0), the
   default network of Stockfish 15.1, embedded in the program at build time.
 
